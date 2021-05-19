@@ -1,0 +1,32 @@
+docker build -t node-app-image . 
+  (cria a imagem docker com as instruções do Dockerfile, usando -t tag com nome node-app-image, do diretório atual .  )
+docker image ls 
+  (mostra as imagens)
+docker ps 
+  (mostra os containers abertos, docker ps -a mostra os fechados também)
+docker run -v %cd%:/app:ro --env-file ./.env -p 3000:3000 -v /app/node_modules -d --name node-app node-app-image 
+  (roda o container na porta 3000 e 3000 do host machine, -d dettached do CLI, com --name node-app, a partir da node-app-image,
+  linkando a pasta atual %cd% do host com o volume /app do container, da forma 'read only' (:ro),
+  o segundo -v faz com que não toque na pasta /app/node_modules
+  o --env-file ./.env carrega as variáveis de ambiente)
+docker rm node-app -f 
+  (remove o container node-app de forma -f forced)
+docker exec -it node-app bash
+  (entra no container e abre um terminal bash)
+docker logs node-app
+  (logs do container node-app pra ver os erros)
+
+docker-compose up -d
+  (usa o docker-compose.yml como base para criar um container, ou quantos estiverem lá explicitados)
+docker-compose down -v 
+  (deleta o docker-compose e os volumes -v)
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+  (a flag -f significa 'file', e a ordem importa. primeiro vai o arquivo que tem
+  as configurações gerais tanto pra development (docker-compose.dev.yml, nesse caso) 
+  quanto pra produção (docker-compose.prod.yml, nesse caso)
+  a flag serve para montar o serviço/cointainer seguindo as configurações nesses arquivos)
+
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+  (no caso do compose de produção, precisamos passar a flag --build pra que ele refaça a imagem,
+  já que ele não tem bind com a pasta durante o desenvolvimento)
