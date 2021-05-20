@@ -27,6 +27,16 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
   quanto pra produção (docker-compose.prod.yml, nesse caso)
   a flag serve para montar o serviço/cointainer seguindo as configurações nesses arquivos)
 
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build (pra descer, usar down ao invés de up)
   (no caso do compose de produção, precisamos passar a flag --build pra que ele refaça a imagem,
   já que ele não tem bind com a pasta durante o desenvolvimento)
+
+
+> depois de entrar no container do mongo com 'docker exec -it node-docker_mongo_1 bash'
+mongo -u "usuario" -p "password"
+  (faz login na database
+  também é possível pular o 'bash' e ir direto para:
+  docker exect -it node-docker_mongo_1 mongo -u "user" -p "password")
+
+docker inspect nomedocontainer
+  (pega várias informações do container, inclusive o IP Address, necessário pra rodar o mongoose.connect)

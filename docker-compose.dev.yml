@@ -10,6 +10,13 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_USER=tlgdn
+      - MONGO_PASSWORD=tlgdn
     command: npm run dev 
+  
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=tlgdn
+      - MONGO_INITDB_ROOT_PASSWORD=tlgdn
 
 
